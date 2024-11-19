@@ -1,0 +1,29 @@
+
+
+git intit
+git config user.name "Your New Name"
+git config user.email "your-email@example.com"
+
+
+problem:
+
+'D:/Pinovation Tech Ltd/footwear ERP/PTLSPEERP' is owned by:
+        (inconvertible) (S-1-5-21-4253095375-717320945-3161747724-1001)
+ 
+
+
+git config --global --add safe.directory 'D:/Pinovation Tech Ltd/footwear ERP/PTLSPEERP'
+git config --global --add safe.directory 'D:/Pinovation Tech Ltd/RealState Erp/PTLRealEstateERP'
+
+
+git clone git@github.com:username/repository.git
+
+
+
+
+
+
+git add .
+git commit -m 'list' 
+git pull origin dev
+git push origin devibrahim
