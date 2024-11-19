@@ -18,11 +18,13 @@ git config --global --add safe.directory 'D:/Pinovation Tech Ltd/RealState Erp/P
 
 git clone git@github.com:username/repository.git
 
+Branch change============================================
+git checkout devibrahim
 
 
 
 
-
+usable ===========================================================
 git add .
 git commit -m 'list' 
 git pull origin dev
