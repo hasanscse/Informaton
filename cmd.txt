@@ -1,0 +1,7 @@
+update related issue
+Open Command Prompt as an administrator.
+net stop wuauserv
+net stop bits
+ren %systemroot%\SoftwareDistribution SoftwareDistribution.old
+net start wuauserv
+net start bits
