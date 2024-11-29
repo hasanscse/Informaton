@@ -1,4 +1,10 @@
 
+After long time location issue 
+run
+=============
+git config --global --add safe.directory 'D:/Pinovation Tech Ltd/  Your device location'
+
+
 
 git intit
 git config user.name "Your New Name"
