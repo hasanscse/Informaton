@@ -8,3 +8,4 @@ Update-Database
 
 
 add-migration Migration1
+Update-Database
