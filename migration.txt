@@ -4,3 +4,7 @@ dotnet ef migrations add InitialCreate
 Add-Migration InitialCreate
 dotnet ef database update
 Update-Database
+
+
+
+add-migration Migration1
