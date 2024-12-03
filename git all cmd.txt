@@ -2,7 +2,7 @@
 After long time location issue 
 run
 =============
-git config --global --add safe.directory 'D:/Pinovation Tech Ltd/  Your device location'
+git config --global --add safe.directory 'D:/folder/  Your device location'
 
 
 
