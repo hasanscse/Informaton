@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plane Animation</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #87CEEB; /* Sky blue background */
+        }
+        #plane {
+            position: absolute;
+            top: 100px; /* Initial vertical position */
+            left: -150px; /* Start off-screen */
+            width: 100px; /* Plane size */
+            height: 100px;
+            background-image: url('https://img.icons8.com/ios/452/airplane-mode-on.png'); /* Airplane icon */
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+<body>
+
+<div id="plane"></div>
+
+<script>
+    $(document).ready(function() {
+        function animatePlane() {
+            $('#plane')
+                .animate({ 
+                    left: '100%'  // Move the plane across the screen
+                }, 
+                5000, // Duration (5 seconds)
+                'linear', // Speed curve (constant speed)
+                function() {
+                    // Callback function after the plane reaches the right side
+                    // Reset the position to the left for a continuous loop
+                    $('#plane').css({ left: '-150px' });
+                    animatePlane(); // Re-run the animation
+                });
+        }
+
+        // Start the animation when the page is ready
+        animatePlane();
+    });
+</script>
+
+</body>
+</html>
