@@ -28,3 +28,14 @@ namespace WebFormApp
         }
     }
 }
+
+
+/// concert yeardate 
+ // Input date in the format "Jan-2025"
+//string input = "Jan-2025";
+
+        // Parse the date string using DateTime.ParseExact
+     //   DateTime date = DateTime.ParseExact(input, "MMM-yyyy", CultureInfo.InvariantCulture);
+
+        // Format the date to "yyyyMM"
+      //  string formattedDate = date.ToString("yyyyMM");
