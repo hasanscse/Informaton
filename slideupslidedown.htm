@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slide Animation Example</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        #box {
+            width: 200px;
+            height: 200px;
+            background-color: lightcoral;
+        }
+    </style>
+</head>
+<body>
+
+<button id="slideDownBtn">Slide Down</button>
+<button id="slideUpBtn">Slide Up</button>
+<div id="box"></div>
+
+<script>
+    $(document).ready(function() {
+        // Slide Down on button click
+        $('#slideDownBtn').click(function() {
+            $('#box').slideDown(1000); // Slide down over 1 second
+        });
+
+        // Slide Up on button click
+        $('#slideUpBtn').click(function() {
+            $('#box').slideUp(1000); // Slide up over 1 second
+        });
+    });
+</script>
+
+</body>
+</html>
