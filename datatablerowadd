@@ -1,0 +1,135 @@
+      protected void lnkbtnAdd_Click(Object sender, EventArgs args)
+        {
+            try {
+                string comcod = this.GetComeCode();
+                string empid = this.ddlemployee.SelectedValue.ToString();               
+                DataSet ds = HRData.GetTransInfo(comcod, "dbo_hrm.SP_ENTRY_EMPLOYEE01", "GETDATAFORGROSSDEDUCTIONINDIVIDUALINFO", empid, "", "", "", "", "");
+
+
+                string empname = ds.Tables[0].Rows[0]["empname"].ToString();
+                string sectionname = ds.Tables[0].Rows[0]["sectionname"].ToString();
+                string desigid = ds.Tables[0].Rows[0]["desigid"].ToString();
+                string idcard = ds.Tables[0].Rows[0]["idcard"].ToString();
+                string desig = ds.Tables[0].Rows[0]["desig"].ToString();
+               
+
+                DataTable dt = (DataTable)ViewState["tblempgrossded"];
+
+                bool isDuplicate = dt.AsEnumerable().Any(row => row["empid"].ToString() == empid);
+
+                if (isDuplicate)
+                {
+                    msg = "Already Exist!!";
+                    ScriptManager.RegisterStartupScript(this, GetType(), "CallMyFunction", "showContent('" + msg + "');", true);
+                    return;
+                }
+                
+
+                if (dt == null)
+                {                   
+                    dt = new DataTable();                   
+                    dt.Columns.Add("comcod");
+                    dt.Columns.Add("monthid");
+                    dt.Columns.Add("empid");
+                    dt.Columns.Add("grosssal");
+                    dt.Columns.Add("secid");
+                    dt.Columns.Add("desigid");     
+
+                    dt.Columns.Add("sectionname");
+                    dt.Columns.Add("idcard");
+                    dt.Columns.Add("empname");
+                    dt.Columns.Add("desig");
+
+
+                }
+                
+                DataRow newRow = dt.NewRow();
+
+                newRow["comcod"] = comcod;
+                newRow["monthid"] = this.ddlYearMonth.SelectedValue.ToString();
+                newRow["empid"] = this.ddlemployee.SelectedValue.ToString();
+                newRow["grosssal"] = true;
+                newRow["secid"] = this.ddlSection.SelectedValue.ToString();
+                newRow["desigid"] = desigid;
+                newRow["sectionname"] = sectionname;
+                newRow["idcard"] = idcard;
+                newRow["empname"] = empname;
+                newRow["desig"] = desig;
+              
+
+
+                dt.Rows.Add(newRow); 
+                ViewState["tblempgrossded"] = dt;
+
+                this.loadExistdata();
+
+            }
+            catch (Exception ex) {
+            
+            }
+        
+        
+        
+        }
+
+
+        private void loadExistdata()
+        {
+
+            try
+            {
+                DataTable dt = (DataTable)ViewState["tblempgrossded"];
+                this.gvSalaryDedgross.PageSize = Convert.ToInt32(ddlpagesize.SelectedValue.ToString());
+                this.gvSalaryDedgross.DataSource = dt;
+                this.gvSalaryDedgross.DataBind();
+
+
+
+            }
+
+            catch (Exception ex) { }
+
+        }      
+
+
+
+        protected void lUpdate_Click(Object sender, EventArgs args)
+        {
+
+            ((Label)this.Master.FindControl("lblmsg")).Visible = true;
+          
+            DataTable dt = (DataTable)ViewState["tblempgrossded"];
+            string comcod = this.GetComeCode();           
+
+            bool result = false;
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                string empid = dt.Rows[i]["empid"].ToString();
+                string yearmonth = dt.Rows[i]["monthid"].ToString();
+
+
+                result = HRData.UpdateTransInfo(comcod, "dbo_hrm.SP_ENTRY_EMPLOYEE01", "UPDATEDATAFORGROSSDEDUCTION", empid, yearmonth, "", "", "", "");
+
+                if (!result)
+                {
+
+                    ScriptManager.RegisterStartupScript(this, GetType(), "CallMyFunction", "showContentFail('" + HRData.ErrorObject["Msg"] + "');", true);
+                    return;
+
+                }
+
+            }
+
+
+            msg = "Updated Successfully";
+            ScriptManager.RegisterStartupScript(this, GetType(), "CallMyFunction", "showContent('" + msg + "');", true);
+
+
+
+        }
+
+
+        protected void ddlpagesize_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.loadExistdata();
+        }
