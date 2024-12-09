@@ -39,3 +39,58 @@ namespace WebFormApp
 
         // Format the date to "yyyyMM"
       //  string formattedDate = date.ToString("yyyyMM");
+
+
+        private void YearBind()
+        {
+            List<YearMonth> objlistYearMonth = new List<YearMonth>();
+
+            for (int i = -5; i < 12; i++)
+            {
+                YearMonth objYearMonth = new YearMonth();
+                var month = DateTime.Now.AddMonths(i);
+                string monthString = month.ToString("MMM-yyyy", CultureInfo.InvariantCulture);
+                objYearMonth.monthString = monthString;
+                DateTime date = DateTime.ParseExact(monthString, "MMM-yyyy", CultureInfo.InvariantCulture);
+                string yearmonthid = date.ToString("yyyyMM");
+                objYearMonth.yearmonthid = Convert.ToInt32(yearmonthid);
+                objlistYearMonth.Add(objYearMonth);
+
+
+            }
+            this.ddlYearMonth.DataSource = objlistYearMonth;
+            this.ddlYearMonth.DataTextField = "monthString";
+            this.ddlYearMonth.DataValueField = "yearmonthid";
+            this.ddlYearMonth.DataBind();
+
+
+        }
+        public class YearMonth
+        {
+            public int yearmonthid { get; set; }
+            public string monthString { get; set; }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
