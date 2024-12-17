@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Overall Information Summary</title>
+  <!-- Bootstrap 4 CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom CSS for animations, responsive background, and text -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+    }
+
+    /* Card styling */
+    .card {
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      animation: lightUpDown 3s ease-in-out infinite; /* Continuous animation */
+    }
+
+    /* Card hover effect */
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    /* Soft and dynamic lighting effect */
+    @keyframes lightUpDown {
+      0% {
+        background-color: #007bff; /* Light blue */
+      }
+      50% {
+        background-color: #66b3ff; /* Soft light blue */
+      }
+      100% {
+        background-color: #007bff; /* Light blue */
+      }
+    }
+
+    /* Specific colors for each card */
+    .card.bg-primary {
+      background-color: #007bff;
+    }
+
+    .card.bg-success {
+      background-color: #28a745;
+    }
+
+    .card.bg-danger {
+      background-color: #dc3545;
+    }
+
+    .card.bg-info {
+      background-color: #17a2b8;
+    }
+
+    .card.bg-warning {
+      background-color: #ffc107;
+    }
+
+    .card.bg-orange {
+      background-color: #fd7e14;
+    }
+
+    .card.bg-green {
+      background-color: #28a745;
+    }
+
+    .card-body {
+      padding: 1.5rem;
+    }
+
+    /* Custom column width for smaller devices */
+    .custom-col-md-2-5 {
+      flex: 0 0 24%;
+      max-width: 24%;
+      padding: 10px;
+    }
+
+    /* Adjust columns on smaller screens */
+    @media (max-width: 1200px) {
+      .custom-col-md-2-5 {
+        flex: 0 0 30%;
+        max-width: 30%;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .custom-col-md-2-5 {
+        flex: 0 0 45%;
+        max-width: 45%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .custom-col-md-2-5 {
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+    }
+
+    /* Responsive text size */
+    h2 {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .card-text {
+      font-size: 1.1rem;
+      font-weight: normal;
+    }
+
+    /* Media queries for responsive text */
+    @media (max-width: 1200px) {
+      h2 {
+        font-size: 2rem;
+      }
+      .card-text {
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      h2 {
+        font-size: 1.5rem;
+      }
+      .card-text {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container-fluid">
+    <h2>Overall Information Summary</h2>
+
+    <div class="row">
+      <!-- Column 1 -->
+      <div class="custom-col-md-2-5">
+        <div class="card bg-primary text-white small-card mb-2">
+          <div class="card-body text-center p-2">
+            <p class="card-text mb-0">Lead Time Maintained</p>
+            <p class="card-text mb-0" id="lblleadtime">30 Days</p>
+          </div>
+        </div>
+
+        <div class="card bg-success text-white small-card mb-2">
+          <div class="card-body text-center p-2">
+            <p class="card-text mb-0">Total Order</p>
+            <p class="card-text mb-0" id="lbltotalorder">1500 Orders</p>
+          </div>
+        </div>
+
+        <div class="card bg-green text-white small-card mb-2">
+          <div class="card-body text-center p-2">
+            <p class="card-text mb-0">Overall Business Volume</p>
+            <p class="card-text mb-0" id="lbloverallbusinessvolumn">$2,000,000</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Column 2 -->
+      <div class="custom-col-md-2-5">
+        <div class="card bg-danger text-white small-card mb-2">
+          <div class="card-body text-center p-2">
+            <p class="card-text mb-0">Quality Delivered</p>
+            <p class="card-text mb-0" id="lblQualityDelivered">Excellent</p>
+          </div>
+        </div>
+
+        <div class="card bg-danger text-white small-card mb-2">
+          <div class="card-body text-center p-2">
+            <p class="card-text mb-0">Order Quantity</p>
+            <p class="card-text mb-0" id="lblOrderQuantity">500 Units</p>
+          </div>
+        </div>
+
+        <div class="card bg-primary text-white small-card mb-2">
+          <div class="card-body text-center p-2">
+            <p class="card-text mb-0">Average Rate</p>
+            <p class="card-text mb-0" id="lblAveragerate">$15</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Column 3 -->
+      <div class="custom-col-md-2-5">
+        <div class="card bg-primary text-white small-card mb-2">
+          <div class="card-body text-center p-2">
+            <p class="card-text mb-0">Replacement Quantity</p>
+            <p class="card-text mb-0" id="lblReplacementQuantity">10 Units</p>
+          </div>
+        </div>
+
+        <div class="card bg-info text-white small-card mb-2">
+          <div class="card-body text-center p-2">
+            <p class="card-text mb-0">Order Amount (#)</p>
+            <p class="card-text mb-0" id="lblorderamt">$500,000</p>
+          </div>
+        </div>
+
+        <div class="card bg-danger text-white small-card mb-2">
+          <div class="card-body text-center p-2">
+            <p class="card-text mb-0">Average Days Taken</p>
+            <p class="card-text mb-0" id="lblAveragedaysTaken">10 Days</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Column 4 -->
+      <div class="custom-col-md-2-5">
+        <div class="card bg-green text-white small-card mb-2">
+          <div class="card-body text-center p-2">
+            <p class="card-text mb-0">Ontime Invoice Submission</p>
+            <p class="card-text mb-0" id="lblontineinvoicesubmission">95%</p>
+          </div>
+        </div>
+
+        <div class="card bg-info text-white small-card mb-2">
+          <div class="card-body text-center p-2">
+            <p class="card-text mb-0">Material Group wise Business Volume</p>
+            <p class="card-text mb-0" id="lblMaterialGroupwiseBusinessVolume">$1,000,000</p>
+          </div>
+        </div>
+
+        <div class="card bg-warning text-white small-card mb-2">
+          <div class="card-body text-center p-2">
+            <p class="card-text mb-0">Overall Score</p>
+            <p class="card-text mb-0" id="lbloverallScore">A</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Column 5 -->
+      <div class="custom-col-md-2-5">
+        <div class="card bg-orange text-white small-card mb-2">
+          <div class="card-body text-center p-2">
+            <p class="card-text mb-0">After Delivery Service & Overall Response</p>
+            <p class="card-text mb-0" id="lblafterDelveryServiceovrResponse">Good</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 4 JS and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // jQuery functionality for dynamic updates and actions
+    $(document).ready(function() {
+      // Example of dynamically updating a card value
+      $('#lblleadtime').text('30 Days');
+      $('#lbltotalorder').text('1500 Orders');
+      $('#lbloverallbusinessvolumn').text('$2,000,000');
+
+      // You can trigger actions like showing/hiding specific elements or updating card content
+      $('.card').click(function() {
+        $(this).toggleClass('bg-warning'); // Toggle card background color on click
+      });
+    });
+  </script>
+</body>
+</html>
