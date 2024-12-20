@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>We’ll Be Back Soon!</title>
+    <style>
+        /* General body styles */
+        body {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb, #8fd3f4);
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Container for the maintenance message */
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 90%;
+            animation: slideIn 1.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .container h1 {
+            font-size: 32px;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, #ff6f91, #ff9671);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
+
+        .container p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .countdown {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #ff9671;
+        }
+
+        .contact-btn {
+            display: inline-block;
+            padding: 12px 25px;
+            font-size: 18px;
+            background: #ff6f91;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 30px;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .contact-btn:hover {
+            background: #ff9671;
+            transform: scale(1.05);
+        }
+
+        .footer {
+            font-size: 14px;
+            margin-top: 20px;
+            color: #ccc;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .container h1 {
+                font-size: 26px;
+            }
+
+            .container p {
+                font-size: 16px;
+            }
+
+            .countdown {
+                font-size: 22px;
+            }
+
+            .contact-btn {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>We’ll Be Back Soon!</h1>
+        <p>Our site is currently undergoing maintenance to improve your experience. Please be patient, we'll be back shortly!</p>
+        
+        <div class="countdown" id="countdown">Maintenance ends in: <span id="timer">--:--:--</span></div>
+        
+        <a href="mailto:admin@example.com" class="contact-btn">Contact Support</a>
+        
+        <p class="footer">Thank you for your understanding!</p>
+    </div>
+
+    <script>
+        // Set the end time for maintenance (YYYY-MM-DD HH:MM:SS)
+        const endTime = new Date('2024-06-30T18:00:00').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = endTime - now;
+
+            if (distance <= 0) {
+                document.getElementById('countdown').innerText = 'Maintenance has ended!';
+                return;
+            }
+
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('timer').innerText =
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Update the countdown timer every second
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>
