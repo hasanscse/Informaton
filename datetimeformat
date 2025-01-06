@@ -1,0 +1,32 @@
+ 
+grid Date format::
+
+<asp:TemplateField HeaderText="Joining Date">
+                                     <ItemTemplate>
+                                            <asp:Label ID="lblgvjoindate" runat="server" BackColor="Transparent"
+                                                BorderStyle="None"
+                                                Text='<%# Convert.ToDateTime(DataBinder.Eval(Container.DataItem, "joindate")).ToString("dd-MMM-yyyy") %>'
+                                                Width="80px"></asp:Label>
+                                        </ItemTemplate>
+                                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                                    </asp:TemplateField>
+
+ <asp:TemplateField HeaderText="PF Start </br>date">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lgvpf" runat="server"
+                                                      Text='<%# (Convert.ToDateTime(DataBinder.Eval(Container.DataItem, "pfsdat")).Year==1900? "" :Convert.ToDateTime(DataBinder.Eval(Container.DataItem, "pfsdat")).ToString("dd-MMM-yyyy")) %>'                                                
+                                                    Width="70px"></asp:Label>
+                                            </ItemTemplate>
+                                            <ItemStyle HorizontalAlign="Left" />
+                                            <HeaderStyle HorizontalAlign="Center" VerticalAlign="Top" />
+                                        </asp:TemplateField>
+
+
+rdlc Date format::
+
+=IIf(Year(Fields!joindate.Value) = 1900, "", CDate(Fields!joindate.Value).ToString("dd-MMM-yyyy"))
+
+
+RDLC amount format:
+=Format(Fields!amt12.Value,"#,##0;(#,##0); ")
