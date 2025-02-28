@@ -5,18 +5,29 @@ run
 git config --global --add safe.directory 'D:/folder/  Your device location'
 
 
-
+check gmail::
 git intit
 git config user.name "Your New Name"
 git config user.email "your-email@example.com"
+
+
+gmail comment--------set email
+git config --global user.name "Your Name"
+git config --global user.name "Your Name"
+
+git config --global user.email "youremail@example.com"
+git config --global --list
+
+git config user.name "Your Name"
+git config user.email "youremail@example.com"
+
+
 
 
 problem:
 
 'D:/Pinovation Tech Ltd/footwear ERP/PTLSPEERP' is owned by:
         (inconvertible) (S-1-5-21-4253095375-717320945-3161747724-1001)
- 
-
 
 git config --global --add safe.directory 'D:/Pinovation Tech Ltd/footwear ERP/PTLSPEERP'
 git config --global --add safe.directory 'D:/Pinovation Tech Ltd/RealState Erp/PTLRealEstateERP'
