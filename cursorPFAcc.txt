@@ -1,0 +1,87 @@
+-----------------------------------------------------------------------------------------------------
+---dbo_hrm.SP_REPORT_HR_EMPSTATUS '3101', 'EMPINDPAY','930100101005'
+EMPINDPAY:
+begin
+declare @gpay decimal(19,6),@total decimal(19,6),@desig nvarchar(250),@joindate smalldatetime,@idcard nvarchar(12),
+	@name nvarchar(250),@pfstartdt smalldatetime,@pfenddt smalldatetime,@dept nvarchar(250), @datedef smalldatetime 
+set @total =0;
+
+create table #tblpay (paydate smalldatetime ,salary decimal(18,6),pfamt decimal(18,6),balance decimal(18,6),opening nvarchar(250), patype  nvarchar(250))
+
+select monthid,date1 =left(monthid,4)+'-'+right(monthid,2)+'-01', bsal, pfund into #tblsalsheet from dbo_hrm.salsheet where comcod =@comp1 and empid= @desc1
+set @gpay = (select top 1 bsal from #tblsalsheet )
+
+
+select voudat ,gspay=0.00 ,trnam,swf=isnull(swf,0.0) into #tblopen from dbo_hrm.pfactrna where comcod =@comp1 and rescode =@desc1 and vounum like 'op%'
+--select * from #tblsalsheet return
+select id,comcod,empid,payamt, paydate into #tblhremppayment  from dbo_hrm.HREMPPFPAYMENT where comcod =@comp1 and empid= @desc1
+
+
+
+insert into #tblpay(paydate,salary,pfamt,balance,opening, patype)
+select voudat , gspay ,abs(trnam),0.00,'Opening Balance', 'Open'    from #tblopen union all
+select convert(smalldatetime, date1), bsal, pfund ,0.00, '','PF Add(+)' from #tblsalsheet union all
+select convert(smalldatetime, paydate) ,0.0, -payamt,0.00 ,'','Payment(-)' from #tblhremppayment
+
+
+select paydate,salary,pfamt,balance,opening ,patype into #tblpayc from #tblpay order by paydate asc
+
+
+declare  curproject cursor  for 
+	select  salary,pfamt,paydate from #tblpayc  order by paydate
+declare @date2 smalldatetime, @salary decimal(18,6), @pfamt decimal(18,6)
+open curproject 
+	fetch next from curproject into @salary,  @pfamt ,@date2
+		while @@fetch_status=0
+			begin
+				 set @total= @pfamt+@total
+				 update #tblpayc set balance = @total  where paydate= @date2
+	
+				   fetch next from curproject into @salary,  @pfamt ,@date2
+			end 
+close curproject
+deallocate curproject
+
+
+select paydate=(case when opening='' then  format(paydate,'MMM')+CHAR(39)+format(paydate,'yy') else opening end),salary ,pfamt ,contribu=pfamt,balance,patype   from #tblpayc
+
+
+
+
+
+---select* from #tblpay return
+
+
+---------service length	
+--select comcod, empid, joindate=gdatad into  #tblserlength from hrempdinf where comcod=@cOmp1 and gcod='01003' and  gdatad<=GETDATE()
+--select comcod,empid , joindate, years=(datediff(mm,joindate,getdate())/12),  months = (DATEDIFF(m, joindate, GETDATE())%12)  into #tblservlen from  #tblserlength where comcod=@comp1
+
+
+
+set @name =(select  gdatat from hrempdinf where comcod=@comp1 and empid =@Desc1 and gcod='01002')
+set @joindate =(select  gdatad from hrempdinf where comcod=@comp1 and empid =@Desc1 and gcod='01003')
+set @idcard=( select  gdatat from hrempdinf where comcod=@comp1 and empid =@Desc1 and gcod='01001')
+set @desig = (select  gdatat from hrempdinf where comcod=@comp1 and empid =@Desc1 and gcod like'03%')
+set @pfstartdt =( select  gdatad from hrempdinf where comcod=@comp1 and empid =@Desc1 and gcod='20001')
+set @pfenddt =( select  gdatad from hrempdinf where comcod=@comp1 and empid =@Desc1 and gcod='20002')
+set @dept = (select refno  from hrempdinf where comcod=@Comp1 and empid=@Desc1 and gcod like '03%')
+set @dept = (select sirdesc  from sirinf  where  comcod = @comp1 and sircode=@dept)
+
+
+declare @tyear int,@tmonth int ,@pfenddate smalldatetime
+
+
+set  @pfenddate= (select MAX(date1) from #tblsalsheet)
+
+--select @pfenddate,@pfenddt return 
+ set @pfenddate=iif(@pfenddt='01-jan-1900', @pfenddate ,@pfenddt)
+ set  @tmonth=(datediff(month, format(@pfstartdt,'yyyy-MM-dd'), format(@pfenddate,'yyyy-MM-dd'))%12)+1
+ set  @tyear=(datediff(MONTH, format(@pfstartdt,'yyyy-MM-dd'), format(@pfenddate,'yyyy-MM-dd'))/12) 
+
+
+select empid = @Desc1,name=@name,joindate=@joindate,desig=@desig,idcard=@idcard,pfstart=@pfstartdt,pfend=@pfenddt,dept=@dept,years=@tyear,months=@tmonth
+
+
+return
+end
+--=============
