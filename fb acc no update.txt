@@ -1,0 +1,17 @@
+select* from TEMPNEW_ACC_DATA
+
+
+
+UPDATE b
+SET b.EMPID = a.EMPID
+FROM dbo_hrm.HREMPDINF a
+INNER JOIN TEMPNEW_ACC_DATA b ON a.GDATAT = b.ID
+WHERE a.comcod = '5305' AND a.GCOD = '01001';
+
+select* from dbo_hrm.HREMPDINF where GCOD like '19%' and comcod = '5305'
+
+UPDATE a
+SET a.GDATAT='190200010010' , a.ACNO=b.accno
+FROM dbo_hrm.HREMPDINF a
+INNER JOIN TEMPNEW_ACC_DATA b ON a.empid = b.empid
+WHERE a.comcod = '5305' AND a.GCOD like  '19%';
