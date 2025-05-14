@@ -1,0 +1,32 @@
+DECLARE @Year INT = 2025;
+
+WITH Wednesdays AS (
+    SELECT CAST(CONCAT(@Year, '-01-01') AS DATE) AS DateValue
+    WHERE DATENAME(WEEKDAY, CAST(CONCAT(@Year, '-01-01') AS DATE)) = 'Wednesday'
+    
+    UNION ALL
+    
+    SELECT DATEADD(DAY, 7, DateValue)
+    FROM Wednesdays
+    WHERE YEAR(DATEADD(DAY, 7, DateValue)) = @Year
+)
+SELECT DateValue
+FROM Wednesdays
+OPTION (MAXRECURSION 366);
+
+
+int year = 2025;
+DateTime date = new DateTime(year, 1, 1);
+
+// Find the first Wednesday
+while (date.DayOfWeek != DayOfWeek.Wednesday)
+{
+    date = date.AddDays(1);
+}
+
+// List all Wednesdays
+while (date.Year == year)
+{
+    Console.WriteLine(date.ToString("yyyy-MM-dd"));
+    date = date.AddDays(7);
+}
