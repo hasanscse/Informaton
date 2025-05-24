@@ -1,0 +1,110 @@
+
+--exec dbo_hrm.SP_REPORT_HR_ATTENDENCE '5305','DAYWISE_GROUP_ATTN_INFO',null,null,null, '202211','01-Jan-2025' 
+DAYWISE_GROUP_ATTN_INFO:
+
+	select comcod, gcod, gcod2=left(gcod,2), gcod3=iif('47'='52' or '47'='30' or '47'='81', right(gcod,5),right(gcod,3)), gdesc,gval, rate=0.00, symbol, color, slno
+	into #tblsalginf from salginf where comcod=@Comp1 and left(gcod,5)<>left('00000',5)  
+	and right(gcod,5-5)=right('00000',5-5) and left(gcod,2)='47' order by comcod, gcod
+
+	--select * from #tblsalginf
+	select distinct refno into #tblsection from dbo_hrm.hrempdinf where comcod=@Comp1 and gcod like '03%'
+
+	select a.comcod, sircode, sirdesc, a.hrsection,gdesc= isnull(b.gdesc,'') into #tblsirinf  from  sirinf  a  left join #tblsalginf b on a.comcod=b.comcod  and a.hrsection=b.gcod	
+	where a.comcod=@Comp1 and a.sircode like '94%' and sircode in (select refno from #tblsection )
+	   	  
+   select a.comcod , empid , refno,gdesc, hrsection  into #tblsiremployeew from dbo_hrm.hrempdinf  a left join #tblsirinf b  on a.comcod=b.comcod  and a.refno=b.sircode
+   where gcod like '03%'
+
+   select comcod, dayid, empid, idcardno, offintime into #tblempofficetime  from dbo_hrm.EMPOFFTIME  where comcod=@Comp1 and  dayid= @Desc1
+
+    select a.comcod ,a.empid , refno, gdesc, hrsection into #tblsiremployeeww  from  #tblsiremployeew a  left join #tblempofficetime b  on a.comcod=b.comcod
+
+	select comcod, sircode , sirdesc  into #tblsirinff from SIRINF where comcod='5305' and SIRCODE like '94%'  and right(sircode,8)='00000000'  --   refno=  sircode
+	
+
+	
+	
+
+-- Step 1: Prepare data
+SELECT 
+    ISNULL(a.hrsection, 'Unknown') AS hrsection,
+    c.sirdesc,
+	a.gdesc,
+    a.empid
+INTO #tmp_emp_data
+FROM #tblsiremployeeww a
+LEFT JOIN #tblempofficetime b ON a.comcod = b.comcod AND a.empid = b.empid
+LEFT JOIN #tblsirinff c ON a.comcod = c.comcod AND LEFT(a.refno, 4) = LEFT(c.sircode, 4)
+WHERE c.sirdesc IN (
+    'FB  Footwear Ltd.',
+    'EXECUTIVE EMPLOYEES',
+    'FACTORY WORKER',
+    'Supporting Staff-(HO)',
+    'Factory Staff Grade-02(Non OT Based)',
+    'Factory Staff(OT Based)',
+    'FACTORY STAFF Grade-01'
+);
+
+
+--select* from #tmp_emp_data return
+
+
+-- Step 2: Pivot counts by hrsection and gdesc
+SELECT 
+    hrsection,gdesc,
+    ISNULL([FB  Footwear Ltd.], 0) AS [FB Footwear Ltd.],
+    ISNULL([EXECUTIVE EMPLOYEES], 0) AS [EXECUTIVE EMPLOYEES],
+    ISNULL([FACTORY WORKER], 0) AS [FACTORY WORKER],
+    ISNULL([Supporting Staff-(HO)], 0) AS [Supporting Staff-(HO)],
+    ISNULL([Factory Staff Grade-02(Non OT Based)], 0) AS [Factory Staff Grade-02(Non OT Based)],
+    ISNULL([Factory Staff(OT Based)], 0) AS [Factory Staff(OT Based)],
+    ISNULL([FACTORY STAFF Grade-01], 0) AS [FACTORY STAFF Grade-01]
+	INTO #tmp_pivot_result
+
+FROM (
+    SELECT hrsection, gdesc, empid,sirdesc FROM #tmp_emp_data
+) AS src
+PIVOT (
+    COUNT(empid)
+    FOR sirdesc IN (
+        [FB  Footwear Ltd.],
+        [EXECUTIVE EMPLOYEES],
+        [FACTORY WORKER],
+        [Supporting Staff-(HO)],
+        [Factory Staff Grade-02(Non OT Based)],
+        [Factory Staff(OT Based)],
+        [FACTORY STAFF Grade-01]
+    )
+) AS pvt
+ORDER BY hrsection;
+
+
+
+
+
+select* from #tmp_pivot_result
+
+
+
+
+
+
+
+
+
+DROP TABLE #tmp_emp_data;
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	return
+	end
