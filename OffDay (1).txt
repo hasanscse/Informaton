@@ -1,0 +1,35 @@
+select* from dbo_hrm.HREMPDINf where GDATAT='UNI-561' --930100101480
+
+
+select COMCOD , HDATE, '930100101480', HOCCASION , 'H','3378001', '203.188.255.130', '146903', '2025-01-01 01:52:00'  from dbo_hrm.HOLIDAYINFO where YEAR(HDATE) ='2025' and HOCCASION<>'Weekend Day'
+
+
+
+select* from dbo_hrm.HRWKDOFF where EMPID='930100101480'  and  year(wkdate)='2025'
+
+
+select* from  USRFRM  where FRMNAME like 'RptEmpOthStatus%'
+
+
+
+
+WITH Dates AS (
+    SELECT CAST('2025-01-01' AS DATE) AS DateValue
+    UNION ALL
+    SELECT DATEADD(DAY, 1, DateValue)
+    FROM Dates
+    WHERE DateValue < '2025-12-31'
+)
+SELECT '3378', DateValue, '930100101480', 'Weekend Day' ,  'W', '3378001' , '203.188.255.130' , '146903', '2025-01-01 01:52:00'
+FROM Dates
+WHERE DATENAME(WEEKDAY, DateValue) = 'Sunday'
+OPTION (MAXRECURSION 366);
+
+
+
+
+	select comcod, gcod, gcod2=left(gcod,2), gcod3=iif('47'='52' or '47'='30' or '47'='81', right(gcod,5),right(gcod,3)), gdesc,gval, rate=0.00, symbol, color, slno from salginf 
+	where comcod='5310' and left(gcod,5)<>left('00000',5)  
+	and right(gcod,5-5)=right('00000',5-5) and left(gcod,2)='47' order by comcod, gcod
+
+	select* from sirinf where sircode like '94%'
